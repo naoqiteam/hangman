@@ -12,3 +12,4 @@
 	1. Zeggen dat de letter fout was.
 	2. Score -= 1
 	3. Arm naar beneden
+7. Terug naar 4
