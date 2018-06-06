@@ -1,0 +1,5 @@
+topic: ~ExampleDialog()
+language: dun
+
+u:(e:onstart) "Zeg een letter uit het nato-alfabet."
+    u1:(_[Alfa Bravo Charlie Delta Echo Foxtrot Golf Hotel India Juliett Kilo Lima Mike November Oscar Papa Quebec Romeo Sierra Tango Uniform Victor Whiskey X-ray Yankee Zulu] ) "Ik heb $1 verstaan." $letter=$1
