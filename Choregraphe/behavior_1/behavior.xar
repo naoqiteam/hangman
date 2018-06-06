@@ -15,102 +15,6 @@
             <BehaviorLayer name="behavior_layer1">
                 <BehaviorKeyframe name="keyframe1" index="1">
                     <Diagram>
-                        <Box name="Say" id="1" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="479" y="283">
-                            <bitmap>media/images/box/interaction/say.png</bitmap>
-                            <script language="4">
-                                <content>
-                                    <![CDATA[class MyClass(GeneratedClass):
-    def __init__(self):
-        GeneratedClass.__init__(self, False)
-
-    def onLoad(self):
-        self.bIsRunning = False
-
-    def onUnload(self):
-        self.bIsRunning = False
-
-    def onInput_onStart(self):
-        self.bIsRunning = True
-
-    def onInput_onStop(self):
-        if( self.bIsRunning ):
-            self.onUnload()
-            self.onStopped()]]>
-</content>
-                            </script>
-                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
-                            <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this Input." id="2" />
-                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this Input." id="3" />
-                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished or stopped." id="4" />
-                            <Parameter name="Voice shaping (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="50" max="150" tooltip='Used to modify at runtime the voice feature (tone, speed). In a slighty&#x0A;different way than pitch and speed, it gives a kind of &quot;gender or age&#x0A;modification&quot; effect.&#x0A;&#x0A;For instance, a quite good male derivation of female voice can be&#x0A;obtained setting this parameter to 78%.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the&#x0A;speed parameter. For example, if you want to decrease by 20% the voice&#x0A;shaping, you will have to increase by 20% the speed to keep a constant&#x0A;average speed.&#x0A;&#x0A;!Warning! This feature is not available yet in Japanese, Chinese and Korean.' id="5" />
-                            <Parameter name="Speed (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed.&#x0A;&#x0A;!Warning! This feature is not available yet in Japanese, Chinese and Korean." id="6" />
-                            <Timeline enable="0">
-                                <BehaviorLayer name="behavior_layer1">
-                                    <BehaviorKeyframe name="keyframe1" index="1">
-                                        <Diagram>
-                                            <Box name="Say Text" id="2" localization="8" tooltip="Say the text received on its input." x="370" y="56">
-                                                <bitmap>media/images/box/interaction/say.png</bitmap>
-                                                <script language="4">
-                                                    <content>
-                                                        <![CDATA[import time
-
-class MyClass(GeneratedClass):
-    def __init__(self):
-        GeneratedClass.__init__(self, False)
-        self.tts = ALProxy('ALTextToSpeech')
-        self.ttsStop = ALProxy('ALTextToSpeech', True) #Create another proxy as wait is blocking if audioout is remote
-
-    def onLoad(self):
-        self.bIsRunning = False
-        self.ids = []
-
-    def onUnload(self):
-        for id in self.ids:
-            try:
-                self.ttsStop.stop(id)
-            except:
-                pass
-        while( self.bIsRunning ):
-            time.sleep( 0.2 )
-
-    def onInput_onStart(self, p):
-        self.bIsRunning = True
-        try:
-            sentence = "\RSPD="+ str( self.getParameter("Speed (%)") ) + "\ "
-            sentence += "\VCT="+ str( self.getParameter("Voice shaping (%)") ) + "\ "
-            sentence += str(p)
-            sentence +=  "\RST\ "
-            id = self.tts.post.say(str(sentence))
-            self.ids.append(id)
-            self.tts.wait(id, 0)
-        finally:
-            try:
-                self.ids.remove(id)
-            except:
-                pass
-            if( self.ids == [] ):
-                self.onStopped() # activate output of the box
-                self.bIsRunning = False
-
-    def onInput_onStop(self):
-        self.onUnload()]]>
-</content>
-                                                </script>
-                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
-                                                <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this Input." id="2" />
-                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this Input." id="3" />
-                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when Box behavior is finished." id="4" />
-                                                <Parameter name="Voice shaping (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="150" tooltip='Used to modify at runtime the voice feature (tone, speed). In a slighty&#x0A;different way than pitch and speed, it gives a kind of &quot;gender or age&#x0A;modification&quot; effect.&#x0A;&#x0A;For instance, a quite good male derivation of female voice can be&#x0A;obtained setting this parameter to 78%.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the&#x0A;speed parameter. For example, if you want to decrease by 20% the voice&#x0A;shaping, you will have to increase by 20% the speed to keep a constant&#x0A;average speed.' id="5" />
-                                                <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="6" />
-                                            </Box>
-                                            <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="4" />
-                                            <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" />
-                                        </Diagram>
-                                    </BehaviorKeyframe>
-                                </BehaviorLayer>
-                            </Timeline>
-                            <Resource name="Speech" type="Lock" timeout="0" />
-                        </Box>
                         <Box name="Set Speech Lang." id="2" localization="8" tooltip="Select the language you would like the robot to speak. Any following call to&#x0A;ALTextToSpeech (Say box for instance) will use this language." x="74" y="53">
                             <bitmap>media/images/box/interaction/say.png</bitmap>
                             <script language="4">
@@ -153,7 +57,7 @@ class MyClass(GeneratedClass):
                             </Parameter>
                             <Resource name="Speech" type="Lock" timeout="0" />
                         </Box>
-                        <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="224" y="394">
+                        <Box name="Dialog" id="3" localization="8" tooltip="An example of multilanguage dialog implementation" x="261" y="283">
                             <dialogFile>ExampleDialog/ExampleDialog.dlg</dialogFile>
                             <bitmap>media/images/box/box-dialog.png</bitmap>
                             <script language="4">
@@ -164,225 +68,90 @@ class MyClass(GeneratedClass):
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                             <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
-                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
-                            <Output name="letter" type="3" type_size="1" nature="2" inner="0" tooltip="&#x0A;" id="5" />
+                            <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
                             <Resource name="Speech" type="Lock" timeout="0" />
                             <Resource name="Speech recognition" type="Lock" timeout="0" />
                         </Box>
-                        <Box name="Say (1)" id="6" localization="8" tooltip="Say some text. Note that you must open the box to enter the text." x="308" y="47">
-                            <bitmap>media/images/box/interaction/say.png</bitmap>
+                        <Box name="Python Script" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="251" y="67">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
                             <script language="4">
                                 <content>
-                                    <![CDATA[class MyClass(GeneratedClass):
+                                    <![CDATA[import random
+
+class MyClass(GeneratedClass):
+    word = ""
+    guessed = []
+    score = 10
+    lettersLeft = 0
+
     def __init__(self):
         GeneratedClass.__init__(self, False)
-
-    def onLoad(self):
-        self.bIsRunning = False
-
-    def onUnload(self):
-        self.bIsRunning = False
+        self.tts = ALProxy("ALTextToSpeech")
 
     def onInput_onStart(self):
-        self.bIsRunning = True
+        #self.onStopped() #activate the output of the box
+        self.word = random.choice(self.data).upper()
+        print(self.word)
+        self.lettersLeft = len(self.word)
+        self.tts.say("Ik heb een woord in mijn hoofd. Om een letter te raden, moet je een woord uit het NATO-alfabet zeggen. Je krijgt %d kansen." % self.score)
+        self.getLetter()
 
     def onInput_onStop(self):
-        if( self.bIsRunning ):
-            self.onUnload()
-            self.onStopped()]]>
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box
+
+    def onInput_natoLetter(self, p):
+        letter = p[0]
+
+        # De letter is al geraden.
+        if letter in self.guessed:
+            print("Letter al geraden: %s" % letter)
+            self.tts.say("Die heb je al geraden! Probeer nog eens:")
+            self.getLetter()
+
+        # De letter is juist geraden
+        elif letter in self.word:
+            self.guessed.append(letter)
+            print("%r" % self.guessed)
+            n = self.word.count(letter)
+            self.tts.say("Deze letter komt %d keer voor in mijn woord" % n)
+            self.score += 1
+            self.lettersLeft -= n
+
+            if self.lettersLeft == 0:
+                self.tts.say("Je hebt gewonnen! Het woord was: %s. Je score is: %d" % (self.word, self.score))
+                self.onStopped()
+            else:
+                self.tts.say("Je moet nog %d letters raden, je hebt nog %d kansen." % (self.lettersLeft, self.score))
+                self.getLetter()
+
+        # Foute letter!
+        else:
+            self.score -= 1
+            self.tts.say("Sorry, maar die letter zit niet in het woord.")
+            self.guessed.append(letter)
+            if self.score <= 0:
+                self.tts.say("Je hebt verloren! Het woord was: %s" % self.word)
+                self.onStopped()
+            else:
+                self.tts.say("Je mag nog %s keer raden." % self.score)
+                self.getLetter()
+
+    data = ['peer','appel','perzik','ananas']]]>
 </content>
                             </script>
-                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
-                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this Input." id="2" />
-                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this Input." id="3" />
-                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished or stopped." id="4" />
-                            <Parameter name="Voice shaping (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="50" max="150" tooltip='Used to modify at runtime the voice feature (tone, speed). In a slighty&#x0A;different way than pitch and speed, it gives a kind of &quot;gender or age&#x0A;modification&quot; effect.&#x0A;&#x0A;For instance, a quite good male derivation of female voice can be&#x0A;obtained setting this parameter to 78%.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the&#x0A;speed parameter. For example, if you want to decrease by 20% the voice&#x0A;shaping, you will have to increase by 20% the speed to keep a constant&#x0A;average speed.&#x0A;&#x0A;!Warning! This feature is not available yet in Japanese, Chinese and Korean.' id="5" />
-                            <Parameter name="Speed (%)" inherits_from_parent="0" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed.&#x0A;&#x0A;!Warning! This feature is not available yet in Japanese, Chinese and Korean." id="6" />
-                            <Timeline enable="0">
-                                <BehaviorLayer name="behavior_layer1">
-                                    <BehaviorKeyframe name="keyframe1" index="1">
-                                        <Diagram>
-                                            <Box name="Say Text" id="2" localization="8" tooltip="Say the text received on its input." x="422" y="65">
-                                                <bitmap>media/images/box/interaction/say.png</bitmap>
-                                                <script language="4">
-                                                    <content>
-                                                        <![CDATA[import time
-
-class MyClass(GeneratedClass):
-    def __init__(self):
-        GeneratedClass.__init__(self, False)
-        self.tts = ALProxy('ALTextToSpeech')
-        self.ttsStop = ALProxy('ALTextToSpeech', True) #Create another proxy as wait is blocking if audioout is remote
-
-    def onLoad(self):
-        self.bIsRunning = False
-        self.ids = []
-
-    def onUnload(self):
-        for id in self.ids:
-            try:
-                self.ttsStop.stop(id)
-            except:
-                pass
-        while( self.bIsRunning ):
-            time.sleep( 0.2 )
-
-    def onInput_onStart(self, p):
-        self.bIsRunning = True
-        try:
-            sentence = "\RSPD="+ str( self.getParameter("Speed (%)") ) + "\ "
-            sentence += "\VCT="+ str( self.getParameter("Voice shaping (%)") ) + "\ "
-            sentence += str(p)
-            sentence +=  "\RST\ "
-            id = self.tts.post.say(str(sentence))
-            self.ids.append(id)
-            self.tts.wait(id, 0)
-        finally:
-            try:
-                self.ids.remove(id)
-            except:
-                pass
-            if( self.ids == [] ):
-                self.onStopped() # activate output of the box
-                self.bIsRunning = False
-
-    def onInput_onStop(self):
-        self.onUnload()]]>
-</content>
-                                                </script>
-                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" />
-                                                <Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this Input." id="2" />
-                                                <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this Input." id="3" />
-                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when Box behavior is finished." id="4" />
-                                                <Parameter name="Voice shaping (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="150" tooltip='Used to modify at runtime the voice feature (tone, speed). In a slighty&#x0A;different way than pitch and speed, it gives a kind of &quot;gender or age&#x0A;modification&quot; effect.&#x0A;&#x0A;For instance, a quite good male derivation of female voice can be&#x0A;obtained setting this parameter to 78%.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the&#x0A;speed parameter. For example, if you want to decrease by 20% the voice&#x0A;shaping, you will have to increase by 20% the speed to keep a constant&#x0A;average speed.' id="5" />
-                                                <Parameter name="Speed (%)" inherits_from_parent="1" content_type="1" value="100" default_value="100" min="50" max="200" tooltip="Changes the speed of the voice.&#x0A;&#x0A;Note: For a better effect, you can compensate this parameter with the voice&#x0A;shaping parameter. For example, if you want to increase by 20% the speed, you&#x0A;will have to decrease by 20% the voice shaping to keep a constant average&#x0A;speed." id="6" />
-                                            </Box>
-                                            <Box name="Localized Text" id="5" localization="8" tooltip="Send on the output the text associated with the robot&apos;s current voice language.&#x0A;You can display and edit the text associated with any language by&#x0A;selecting the language in the combobox.&#x0A;&#x0A;!!Warning!! The text sent on the output is NOT the displayed one but the one&#x0A;associated with the robot&apos;s current voice language." plugin="localizationbox_plugin" x="114" y="68">
-                                                <bitmap>media/images/box/interaction/vocabulary.png</bitmap>
-                                                <script language="4">
-                                                    <content>
-                                                        <![CDATA[# /!\ Generated content. Do not edit!
-class MyClass(GeneratedClass):
-	def __init__(self):
-		try: # disable autoBind
-			GeneratedClass.__init__(self, False)
-		except TypeError: # if NAOqi < 1.14
-			GeneratedClass.__init__( self )
-
-		self.tts = ALProxy("ALTextToSpeech")
-		self.sentences = {
-			"Arabic" : "  ",
-			"Czech" : " Ahoj ",
-			"Danish" : " Hej ",
-			"German" : " Hallo ",
-			"Greek" : "  ",
-			"English" : " Hello ",
-			"Spanish" : " Hola ",
-			"Finnish" : " Hei ",
-			"French" : " Bonjour ",
-			"Italian" : " Ciao ",
-			"Japanese" : " こんにちは ",
-			"Korean" : " 안녕하세요 ",
-			"Dutch" : " Hallo, iedereen! ",
-			"Norwegian" : "  ",
-			"Polish" : " Cześć ",
-			"Brazilian" : " Olá ",
-			"Portuguese" : " Olá ",
-			"Russian" : " Привет ",
-			"Swedish" : " Hallå ",
-			"Turkish" : " Merhaba ",
-			"Chinese" : "  "
-		}
-
-	def onInput_onStart(self):
-		sDefaultLang = self.tts.getLanguage()
-		self.onStopped(self.sentences[sDefaultLang])]]>
-</content>
-                                                </script>
-                                                <pluginContent>
-                                                    <arabic>
-                                                        <![CDATA[]]>
-</arabic>
-                                                    <czech>
-                                                        <![CDATA[Ahoj]]>
-</czech>
-                                                    <danish>
-                                                        <![CDATA[Hej]]>
-</danish>
-                                                    <german>
-                                                        <![CDATA[Hallo]]>
-</german>
-                                                    <greek>
-                                                        <![CDATA[]]>
-</greek>
-                                                    <english>
-                                                        <![CDATA[Hello]]>
-</english>
-                                                    <spanish>
-                                                        <![CDATA[Hola]]>
-</spanish>
-                                                    <finnish>
-                                                        <![CDATA[Hei]]>
-</finnish>
-                                                    <french>
-                                                        <![CDATA[Bonjour]]>
-</french>
-                                                    <italian>
-                                                        <![CDATA[Ciao]]>
-</italian>
-                                                    <japanese>
-                                                        <![CDATA[こんにちは]]>
-</japanese>
-                                                    <korean>
-                                                        <![CDATA[안녕하세요]]>
-</korean>
-                                                    <dutch>
-                                                        <![CDATA[Hallo, iedereen!]]>
-</dutch>
-                                                    <norwegian>
-                                                        <![CDATA[]]>
-</norwegian>
-                                                    <polish>
-                                                        <![CDATA[Cześć]]>
-</polish>
-                                                    <brazilian>
-                                                        <![CDATA[Olá]]>
-</brazilian>
-                                                    <portuguese>
-                                                        <![CDATA[Olá]]>
-</portuguese>
-                                                    <russian>
-                                                        <![CDATA[Привет]]>
-</russian>
-                                                    <swedish>
-                                                        <![CDATA[Hallå]]>
-</swedish>
-                                                    <turkish>
-                                                        <![CDATA[Merhaba]]>
-</turkish>
-                                                    <chinese>
-                                                        <![CDATA[]]>
-</chinese>
-                                                    <language>12</language>
-                                                </pluginContent>
-                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
-                                                <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Data is sent on the output when this input is stimulated." id="2" />
-                                                <Output name="onStopped" type="3" type_size="1" nature="1" inner="0" tooltip="Data sent when asked." id="3" />
-                                            </Box>
-                                            <Link inputowner="0" indexofinput="4" outputowner="2" indexofoutput="4" />
-                                            <Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" />
-                                            <Link inputowner="2" indexofinput="2" outputowner="5" indexofoutput="3" />
-                                        </Diagram>
-                                    </BehaviorKeyframe>
-                                </BehaviorLayer>
-                            </Timeline>
-                            <Resource name="Speech" type="Lock" timeout="0" />
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Input name="natoLetter" type="3" type_size="1" nature="1" inner="0" tooltip="" id="4" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" />
+                            <Output name="getLetter" type="1" type_size="1" nature="2" inner="0" tooltip="" id="6" />
                         </Box>
                         <Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" />
-                        <Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="3" />
-                        <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="4" />
-                        <Link inputowner="1" indexofinput="2" outputowner="3" indexofoutput="5" />
-                        <Link inputowner="3" indexofinput="2" outputowner="2" indexofoutput="3" />
+                        <Link inputowner="1" indexofinput="2" outputowner="2" indexofoutput="3" />
+                        <Link inputowner="1" indexofinput="4" outputowner="3" indexofoutput="4" />
+                        <Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="6" />
+                        <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="5" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>
