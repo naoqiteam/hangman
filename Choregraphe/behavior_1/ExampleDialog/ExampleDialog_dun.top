@@ -2,4 +2,6 @@ topic: ~ExampleDialog()
 language: dun
 
 u:(_ [Alfa Bravo Charlie Delta Echo Foxtrot Golf Hotel India Juliett Kilo Lima Mike November Oscar Papa Quebec Romeo Sierra Tango Uniform Victor Whiskey X-ray Yankee Zulu]) Ik heb $1 verstaan $onStopped=$1
+
+u:(Ik heb geen zin meer.) Ok. $end=1
     

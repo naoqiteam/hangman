@@ -12,7 +12,17 @@
  <contents>
   <behaviorContent path="behavior_1">
    <nature>interactive</nature>
-   <permissions/>
+   <names>
+    <name lang="nl_NL">B1</name>
+   </names>
+   <triggerSentences/>
+   <loadingResponses/>
+   <autonomous/>
+   <permissions>
+    <canRunOnPod/>
+    <canSitDown/>
+    <canStandUp/>
+   </permissions>
   </behaviorContent>
   <dialogContent typeVersion="1.0" topicName="ExampleDialog">
    <topic path="behavior_1/ExampleDialog/ExampleDialog_dun.top" language="nl_NL"/>
